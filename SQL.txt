@@ -1,0 +1,159 @@
+
+# 멤버
+CREATE TABLE Member(
+    MbNo	    VARCHAR(7),
+    MbId		VARCHAR2(10) NOT NULL,
+    MbPw	    VARCHAR2(15) NOT NULL,
+    MbName	    VARCHAR2(5) NOT NULL,
+    MbGrade	    VARCHAR2(1) NOT NULL,
+    MbBirth	    DATE,
+
+    CONSTRAINT Pk_Member PRIMARY KEY(MbNo)
+);
+
+
+# 저장소
+CREATE TABLE StoreStorage(
+    SsId 		VARCHAR2(6),
+    SsName	    VARCHAR2(10),
+    SsMax		NUMBER(10),
+    SsNow	    NUMBER(10),
+
+    CONSTRAINT Pk_StoreStorage PRIMARY KEY(SsId)
+);
+
+
+# 제품 마스터
+CREATE TABLE PdMaster(
+    PMId		VARCHAR2(6),
+    PMName	    VARCHAR2(6),
+    PMStat	    VARCHAR2(2),
+    PMUph	    NUMBER(5),
+    PMAmount	NUMBER(5),
+    PMUnit	    VARCHAR(6),
+
+    CONSTRAINT Pk_PdMasters PRIMARY KEY(PMId)
+);
+
+
+# 레시피
+CREATE TABLE BOM(
+    BOMName	    VARCHAR2(6),
+    PMId	    VARCHAR2(6),
+    BOMAmount	NUMBER(5),
+
+    CONSTRAINT FK_BOM_PMName FOREIGN KEY(PMId) REFERENCES PdMaster(PMId),
+    CONSTRAINT Pk_BOM PRIMARY KEY(BOMName, PMId)
+);
+
+
+# 거래처
+CREATE TABLE Customer(
+    CId		    VARCHAR2(6),
+    CName	    VARCHAR2(6),
+    CNumber	    VARCHAR2(13),
+    CManager	VARCHAR2(5),
+    PMId		VARCHAR2(6),
+
+    CONSTRAINT Pk_Customer PRIMARY KEY(CId),
+    CONSTRAINT FK_Customer_PMId FOREIGN KEY(PMId) REFERENCES PdMaster(PMId)
+);
+
+
+# 작업장
+CREATE TABLE WorkCd(
+    WcId		    VARCHAR2(6),
+    WcName	        VARCHAR2(6),
+    WcMax	        NUMBER(10),
+    WcMin	        NUMBER(5),
+    WcOptimalTem    FLOAT(4),
+    WcOptimalHum    FLOAT(4),
+    WcStat	        VARCHAR(1),
+    MbNo		    VARCHAR(7),
+
+    CONSTRAINT Pk_WorkCd PRIMARY KEY(WcId),
+    CONSTRAINT FK_WorkCd_MbNo FOREIGN KEY(MbNo)REFERENCES Member(MbNo)
+);
+
+# 재고
+CREATE TABLE Stock(
+    StId		VARCHAR2(6),
+    StAmount	NUMBER(10),
+    StDate	    DATE,
+    PMId		VARCHAR2(6),
+    SsId		VARCHAR2(6),
+
+    CONSTRAINT Pk_Stock PRIMARY KEY(StId),
+    CONSTRAINT FK_Stock_SsId FOREIGN KEY(SsId) REFERENCES StoreStorage(SsId),
+    CONSTRAINT FK_Stock_PMId FOREIGN KEY(PMId) REFERENCES PdMaster(PMId)
+);
+
+# 단가
+CREATE TABLE Price(
+    PMId		VARCHAR2(6),
+    Pdate		DATE,
+    CId		    VARCHAR2(6),
+    Pprice		NUMBER(10),
+    Preason	    VARCHAR2(20),
+
+    CONSTRAINT Pk_Price PRIMARY KEY(PMId, Pdate, CId),
+    CONSTRAINT FK_Price_PMId FOREIGN KEY(PMId) REFERENCES PdMaster(PMId),
+    CONSTRAINT FK_Price_CId FOREIGN KEY(CId) REFERENCES Customer(CId)
+);
+
+
+# 작업지시
+CREATE TABLE WorkOrder(
+    WoId		    VARCHAR2(7),
+    WcId		    VARCHAR2(6),
+    WoStat	        VARCHAR2(1),
+    WoStartTime	    VARCHAR2(20),
+    WoEndTime	    VARCHAR2(20),
+    WoPlanAmount	NUMBER(5),
+    WoProdAmount	NUMBER(5),
+    MbNo		    VARCHAR2(7),
+    WcNowTem	    FLOAT(4),
+    WcNowHum	    FLOAT(4),
+
+    CONSTRAINT Pk_WorkOrder PRIMARY KEY(WoId, WcId),
+    CONSTRAINT FK_WorkOrder_WcId FOREIGN KEY(WcId) REFERENCES WorkCd(WcId),
+    CONSTRAINT FK_WorkOrder_MbNo FOREIGN KEY(MbNo) REFERENCES Member(MbNo)
+);
+
+
+# 현재 온습도
+CREATE TABLE Now(
+    WcId		VARCHAR2(6),
+    WcTime	    VARCHAR2(20),
+    WoId		VARCHAR(7),
+    WcNowTem	FLOAT(4),
+    WcNowHum	FLOAT(4),
+
+    CONSTRAINT FK_Now_WoId FOREIGN KEY(WoId,WcId) REFERENCES WorkOrder(WoId,WcId),
+    CONSTRAINT Pk_Now PRIMARY KEY(WcId, WcTime, WoId)
+);
+
+
+# LOT
+CREATE TABLE LOT(
+    LOTId		    VARCHAR2(12),
+    WoId		    VARCHAR2(7),
+    LOTCreateTime	VARCHAR(20),
+    LOTStartTime   	VARCHAR(20),
+    LOTEndTime	    VARCHAR(20),
+    WcId		    VARCHAR(6),
+
+    CONSTRAINT Pk_LOT PRIMARY KEY(LOTId),
+    CONSTRAINT FK_WoId FOREIGN KEY(WoId,WcId) REFERENCES WorkOrder(WoId,WcId)
+);
+
+
+# 불량
+CREATE TABLE Faulty(
+    FaId		VARCHAR2(5),
+    LOTId		VARCHAR2(12),
+    FaName	    VARCHAR(10),
+
+    CONSTRAINT Pk_Faulty PRIMARY KEY(FaId, LOTId),
+    CONSTRAINT FK_LOTId FOREIGN KEY(LOTId) REFERENCES LOT(LOTId)
+);
