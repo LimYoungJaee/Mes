@@ -1,0 +1,121 @@
+------------ LOT 시퀀스 및 데이터 입력 / 제품마스터 ------------
+
+
+# 멤버 시퀀스 
+CREATE SEQUENCE Member_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+# 제품마스터 시퀀스
+
+
+# 거래처 시퀀스
+CREATE SEQUENCE Customer_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+# 작업장 시퀀스
+CREATE SEQUENCE WorkCd_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+# 재고 시퀀스
+CREATE SEQUENCE Stock_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+# 작업지시 시퀀스
+CREATE SEQUENCE WorkOrder_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+# 불량 시퀀스
+CREATE SEQUENCE Faulty_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+
+
+# 멤버 데이터 넣기
+insert into Member
+values('Mb'||trim(to_char(Member_seq.nextval,'0000')), 'test01', 'pw01', '석종호'
+            , 'E', '2022-11-17');
+
+insert into Member
+values('Mb'||trim(to_char(Member_seq.nextval,'0000')), 'test02', 'pw02', '석종호2'
+            , 'G', '2022-11-16');
+
+
+# 제품마스터 데이터 넣기
+
+
+
+*************************************** 마스터아이디 입력 # 거래처 데이터 넣기
+insert into Customer
+values('C'||trim(to_char(Customer_seq.nextval,'0000')), '종호축산', '010-0000-0000', '석종호'
+            , '마스터 아이디');
+
+insert into Customer
+values('C'||trim(to_char(Customer_seq.nextval,'0000')), '영재축산', '010-1111-1111', '임영재'
+            , '마스터 아이디');
+
+
+# 작업장 데이터 넣기
+insert into WorkCd
+values('Wc'||trim(to_char(WorkCd_seq.nextval,'000')), '작업장1', 100000, 100, 25, 10.5, 'O', 'Mb0001');
+
+insert into WorkCd
+values('Wc'||trim(to_char(WorkCd_seq.nextval,'000')), '작업장2', 200000, 200, 23, 10, 'N', 'Mb0002');
+
+
+
+*************************************** 마스터아이디 입력# 재고 데이터 넣기
+insert into Stock
+values('St'||trim(to_char(Stock_seq.nextval,'000')), sysdate, 10000, '마스터 아이디');
+
+insert into Stock
+values('St'||trim(to_char(Stock_seq.nextval,'000')), sysdate, 20000, '마스터 아이디');
+
+
+*************************************** 마스터아이디 입력# 단가 데이터 넣기
+insert into Price
+values('마스터 아이디', sysdate-2, 'C0001', '5000', '첫 거래');
+
+insert into Price
+values('마스터 아이디', sysdate, 'C0001', '6000', '원재료 가격 상승');
+
+
+*************************************** 마스터아이디 입력# 작업지시 데이터 넣기
+insert into WorkOrder
+values('Wo'||trim(to_char(Stock_seq.nextval,'00000')), 'Wc001', '마스터 아이디', 'S',
+	 '2022-11-12-17:00', '2022-11-12-18:00', 10000, 10000, 'Mb0000', 25, 10);
+
+insert into WorkOrder
+values('Wo'||trim(to_char(Stock_seq.nextval,'00000')), 'Wc002', '마스터 아이디', 'P',
+	 '2022-11-12-18:00', '2022-11-12-19:00', 10000, 8000, 'Mb0000', 25, 10);
+
+
+# 현재 온습도 데이터 넣기
+insert into WorkOrder values('Wc001', '2022-11-12-17:00', 'Wo00001', 25, 10);
+
+insert into WorkOrder values('Wc002', '2022-11-12-18:00', 'Wo00002', 23, 10);
+
+
+*************************************** LOT아이디 입력 # 불량 데이터 넣기
+insert into Faulty
+values('F'||trim(to_char(Stock_seq.nextval,'0000')), 'LOT 아이디', '포장 불량');
+
+insert into Faulty
+values('F'||trim(to_char(Stock_seq.nextval,'0000')), 'LOT 아이디', '만두피 불량');
