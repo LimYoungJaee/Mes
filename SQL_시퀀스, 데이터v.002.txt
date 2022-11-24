@@ -1,0 +1,235 @@
+------------ LOT 시퀀스 및 데이터 입력 ------------
+------------ # 제품마스터 시퀀스 (만들지 말지 물어봐야댐) -----------------
+
+
+# 멤버 시퀀스 
+CREATE SEQUENCE Member_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+# 제품마스터 시퀀스 (만들지 말지 물어봐야댐)
+
+
+# 거래처 시퀀스 
+CREATE SEQUENCE Customer_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+# 작업장 시퀀스
+CREATE SEQUENCE WorkCd_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+# 재고 시퀀스
+CREATE SEQUENCE Stock_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+# 작업지시 시퀀스
+CREATE SEQUENCE WorkOrder_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+# 불량 시퀀스
+CREATE SEQUENCE Faulty_seq
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+
+
+
+# 멤버 데이터 넣기
+insert into Member
+values('Mb'||trim(to_char(Member_seq.nextval,'0000')), 'test01', 'pw01', '석종호'
+            , 'E', '2022-11-17');
+
+insert into Member
+values('Mb'||trim(to_char(Member_seq.nextval,'0000')), 'test02', 'pw02', '석종호2'
+            , 'G', '2022-11-16');
+
+
+# 제품마스터 데이터 넣기
+insert into PdMaster
+values('PMe01', 'P', '고기만두', 720, 10, 10000, 100, '봉지')
+
+insert into PdMaster
+values('PKi01', 'P', '김치만두', 720, 10, 10000, 100, '봉지')
+
+insert into PdMaster
+values('PRi01', 'P', '갈비만두', 720, 10, 10000, 100, '봉지')
+
+insert into PdMaster(PMId, PMStat, PMName, PMUph, PMUnit)
+values('HMe01', 'H', '고기만두', 900, '갯수(EA)')
+
+insert into PdMaster(PMId, PMStat, PMName, PMUph, PMUnit)
+values('HKi01', 'H', '김치만두', 900, '갯수(EA)')
+
+insert into PdMaster(PMId, PMStat, PMName, PMUph, PMUnit)
+values('HRi01', 'H', '갈비만두', 900, '갯수(EA)')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MDs01', 'M', '만두피', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MPo01', 'M', '돼지고기', 10000, 50, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MKi01', 'M', '김치', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MGo01', 'M', '대파', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MOn01', 'M', '양파', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MCa01', 'M', '양배추', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MCn01', 'M', '당면', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MCh01', 'M', '부추', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MBc01', 'M', '두부', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MGa01', 'M', '마늘', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MSa01', 'M', '소금', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MPe01', 'M', '후추', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MSu01', 'M', '설탕', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MSs01', 'M', '간장', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MGs01', 'M', '갈비양념', 10000, 10, 'KG')
+
+insert into PdMaster(PMId, PMStat, PMName, PMMax, PMMin, PMUnit)
+values('MPu01', 'M', '호박', 10000, 10, 'KG')
+
+
+#BOM 데이터 넣기 만두100개단위 (5KG) 숫자단위 KG
+# 고기만두 BOM
+insert into BOM values('고기만두', 'MDs001', 1.15);  	/*만두피*/
+insert into BOM values('고기만두', 'MOn001', 0.25); 	/*양파*/
+insert into BOM values('고기만두', 'MCh001', 0.5);	/*부추*/
+insert into BOM values('고기만두', 'MCa001', 0.5);	/*양배추*/
+insert into BOM values('고기만두', 'MGo001', 0.25);	/*대파*/
+insert into BOM values('고기만두', 'MPo001', 1.75);	/*돼지고기*/
+insert into BOM values('고기만두', 'MSs001', 0.05);	/*간장*/
+insert into BOM values('고기만두', 'MSu001', 0.05);	/*설탕*/
+insert into BOM values('고기만두', 'MPe001', 0.05);	/*후추*/
+insert into BOM values('고기만두', 'MSa001', 0.05);	/*소금*/
+insert into BOM values('고기만두', 'MGa001', 0.05);	/*마늘*/
+insert into BOM values('고기만두', 'MBc001', 0.25);	/*두부*/
+insert into BOM values('고기만두', 'MCn001', 0.1);	/*당면*/
+
+#김치만두 BOM	
+insert into BOM values('고기만두', 'MDs001', 1.15);  	/*만두피*/
+insert into BOM values('고기만두', 'MOn001', 0.25); 	/*양파*/
+insert into BOM values('고기만두', 'MCh001', 0.5);	/*부추*/
+insert into BOM values('고기만두', 'MCa001', 0.5);	/*양배추*/
+insert into BOM values('고기만두', 'MGo001', 0.25);	/*대파*/
+insert into BOM values('고기만두', 'MPo001', 1.0);	/*돼지고기*/
+insert into BOM values('고기만두', 'MSs001', 0.05);	/*간장*/
+insert into BOM values('고기만두', 'MSu001', 0.05);	/*설탕*/
+insert into BOM values('고기만두', 'MPe001', 0.05);	/*후추*/
+insert into BOM values('고기만두', 'MSa001', 0.05);	/*소금*/
+insert into BOM values('고기만두', 'MGa001', 0.05);	/*마늘*/
+insert into BOM values('고기만두', 'MBc001', 0.25);	/*두부*/
+insert into BOM values('고기만두', 'MKi001', 0.85);	/*김치*/
+	
+#갈비만두 BOM	
+insert into BOM values('고기만두', 'MDs001', 1.15);  	/*만두피*/
+insert into BOM values('고기만두', 'MOn001', 0.25); 	/*양파*/
+insert into BOM values('고기만두', 'MCh001', 0.5);	/*부추*/
+insert into BOM values('고기만두', 'MCa001', 0.5);	/*양배추*/
+insert into BOM values('고기만두', 'MGo001', 0.25);	/*대파*/
+insert into BOM values('고기만두', 'MPo001', 1.75);	/*돼지고기*/
+insert into BOM values('고기만두', 'MSs001', 0.05);	/*간장*/
+insert into BOM values('고기만두', 'MSu001', 0.05);	/*설탕*/
+insert into BOM values('고기만두', 'MPe001', 0.05);	/*후추*/
+insert into BOM values('고기만두', 'MSa001', 0.05);	/*소금*/
+insert into BOM values('고기만두', 'MGa001', 0.05);	/*마늘*/
+insert into BOM values('고기만두', 'MGs001', 0.1);	/*갈비양념*/
+insert into BOM values('고기만두', 'MPu001', 0.25);	/*호박*/
+
+
+# 거래처 데이터 넣기
+insert into Customer
+values('C'||trim(to_char(Customer_seq.nextval,'0000')), '종호축산', '010-0000-0000', '석종호'
+            , 'MPo01');
+
+insert into Customer
+values('C'||trim(to_char(Customer_seq.nextval,'0000')), '영재축산', '010-1111-1111', '임영재'
+            , 'MPo01');
+
+
+# 작업장 데이터 넣기
+insert into WorkCd
+values('Wc'||trim(to_char(WorkCd_seq.nextval,'000')), '작업장1', 100000, 100, 25, 10.5, 'O', 'Mb0001');
+
+insert into WorkCd
+values('Wc'||trim(to_char(WorkCd_seq.nextval,'000')), '작업장2', 200000, 200, 23, 10, 'N', 'Mb0002');
+
+
+
+# 재고 데이터 넣기 (물어보자)
+insert into Stock
+values('St'||trim(to_char(Stock_seq.nextval,'000')), sysdate-1, 10000, 'MPo01');
+
+insert into Stock
+values('St'||trim(to_char(Stock_seq.nextval,'000')), sysdate, 20000, 'MPo01');
+
+
+# 단가 데이터 넣기
+insert into Price
+values('MPo01', sysdate-2, 'C0001', '5000', '첫 거래');
+
+insert into Price
+values('MPo01', sysdate, 'C0001', '6000', '원재료 가격 상승');
+
+
+# 작업지시 데이터 넣기
+insert into WorkOrder
+values('Wo'||trim(to_char(Stock_seq.nextval,'00000')), 'Wc001', 'PMe01', 'E',
+	 '2022-11-12-17:00', '2022-11-12-18:00', 10000, 10000, 'Mb0000', 25, 10);
+
+insert into WorkOrder
+values('Wo'||trim(to_char(Stock_seq.nextval,'00000')), 'Wc002', 'PMe01', 'P',
+	 '2022-11-12-18:00', '2022-11-12-19:00', 10000, 8000, 'Mb0000', 25, 10);
+
+
+# 현재 온습도 데이터 넣기
+insert into WorkOrder values('Wc001', '2022-11-12-17:00', 'Wo00001', 25, 10);
+
+insert into WorkOrder values('Wc002', '2022-11-12-18:00', 'Wo00002', 23, 10);
+
+
+*************************************** LOT아이디 입력 # 불량 데이터 넣기
+insert into Faulty
+values('F'||trim(to_char(Stock_seq.nextval,'0000')), 'LOT 아이디', '포장 불량');
+
+insert into Faulty
+values('F'||trim(to_char(Stock_seq.nextval,'0000')), 'LOT 아이디', '금속검출 불량');
+
+
